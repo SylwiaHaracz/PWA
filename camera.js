@@ -31,12 +31,12 @@ snap.addEventListener('click', () => {
     photoPreview.style.display = 'block';
     snap.style.display = 'none';
     retake.style.display = 'inline-block';
+    shareBtn.disabled = false;
 
     canvas.toBlob((blob) => {
         currentFile = new File([blob], 'daniesmakosza.jpg', {
             type: 'image/jpeg',
         });
-        shareBtn.disabled = false;
     }, 'image/jpeg');
 });
 
