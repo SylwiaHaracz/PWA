@@ -1,3 +1,11 @@
+var deferredPrompt;
+
+if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('./sw.js')
+        .then(function () { console.log('SW zarejestrowany'); })
+        .catch(function (err) { console.error('SW błąd:', err); });
+}
+
 window.addEventListener('beforeinstallprompt', function (e) {
     e.preventDefault();
     deferredPrompt = e;
