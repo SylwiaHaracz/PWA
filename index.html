@@ -11,31 +11,81 @@
   </head>
   <body>
     <nav class="navbar navbar-dark bg-dark shadow-sm mb-3">
-        <div class="container-fluid justify-content-center">
-            <span class="navbar-brand mb-0 h1">🍳 Smakosz Lokalny</span>
-        </div>
+      <div class="container-fluid justify-content-center">
+        <span class="navbar-brand mb-0 h1">🍳 Smakosz Lokalny</span>
+      </div>
     </nav>
     <div class="container" id="app-content">
       <div class="card border-0 shadow-sm p-3 mb-3 text-center">
-            <label class="form-label fw-bold">1. Zrób zdjęcie dania:</label>
-            <div class="preview-container mb-2 shadow-sm" style="background:#000; min-height:200px; position:relative;">
-                <span id="placeholder-text" style="color:#fff; position:absolute; top:45%; left:30%;">Inicjalizacja aparatu...</span>
-                <video id="video" autoplay playsinline style="width:100%; display:block;"></video>
-                <canvas id="canvas" style="display:none;"></canvas>
-                <img id="photo-preview" style="display:none; width:100%;" alt="Zrobione zdjęcie">
-            </div>
-            <div class="d-flex gap-2">
-                <button id="snap" class="btn btn-danger w-100">Zrób zdjęcie</button>
-                <button id="retake" class="btn btn-secondary w-100" style="display:none;">Powtórz</button>
-            </div>
+        <label class="form-label fw-bold">1. Zrób zdjęcie dania:</label>
+        <div
+          class="preview-container mb-2 shadow-sm"
+          style="background: #000; min-height: 200px; position: relative"
+        >
+          <span
+            id="placeholder-text"
+            style="color: #fff; position: absolute; top: 45%; left: 30%"
+            >Inicjalizacja aparatu...</span
+          >
+          <video
+            id="video"
+            autoplay
+            playsinline
+            style="width: 100%; display: block"
+          ></video>
+          <canvas id="canvas" style="display: none"></canvas>
+          <img
+            id="photo-preview"
+            style="display: none; width: 100%"
+            alt="Zrobione zdjęcie"
+          />
         </div>
-
-        <div class="card border-0 shadow-sm p-3 mb-3">
-            <label class="form-label fw-bold">2. Twoja lokalizacja:</label>
-            <div id="map" style="height:250px; background:#eee;"></div>
+        <div class="d-flex gap-2">
+          <button id="snap" class="btn btn-danger w-100">Zrób zdjęcie</button>
+          <button
+            id="retake"
+            class="btn btn-secondary w-100"
+            style="display: none"
+          >
+            Powtórz
+          </button>
         </div>
+      </div>
 
-        <button id="share-btn" class="btn btn-primary w-100 btn-lg shadow" disabled>Udostępnij polecenie znajomym</button>
+      <div class="card border-0 shadow-sm p-3 mb-3">
+        <label class="form-label fw-bold">2. Twoja lokalizacja:</label>
+        <div id="map" style="height: 250px; background: #eee"></div>
+      </div>
+
+      <button
+        id="share-btn"
+        class="btn btn-primary w-100 btn-lg shadow"
+        disabled
+      >
+        Udostępnij polecenie znajomym
+      </button>
     </div>
+
+    <script>
+      const video = document.getElementById('video');
+      const placeholder = document.getElementById('placeholder-text');
+      const snap = document.getElementById('snap');
+
+      async function initCamera() {
+        try {
+          const stream = await navigator.mediaDevices.getUserMedia({
+            video: { facingMode: 'environment' },
+            audio: false,
+          });
+          video.srcObject = stream;
+          placeholder.style.display = 'none';
+        } catch (err) {
+          console.error('Błąd aparatu: ', err);
+          placeholder.textContent = 'Brak aparatu (wymaga HTTPS)';
+          snap.disabled = true;
+        }
+      }
+      initCamera();
+    </script>
   </body>
 </html>
